@@ -1,0 +1,4 @@
+name: KBlackMarket
+version: '${project.version}'
+main: dvie.kblackmarket.KBlackMarket
+depend: [ MassiveCore ]
