@@ -28,7 +28,7 @@ class KBlackMarket : MassivePlugin() {
 
         activate(
             CmdBlackMarket::class.java,
-            MConfColl::class.java
+            MConfColl::class.java,
         )
     }
 

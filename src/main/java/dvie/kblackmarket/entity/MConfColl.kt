@@ -15,12 +15,10 @@ class MConfColl : Coll<MConf>() {
     }
 
     override fun setActive(active: Boolean) {
-        if (!isActive() == active) return
         super.setActive(active)
         if (!active) {
             return
         }
         MConf.i = get("instance", true)
     }
-
 }
