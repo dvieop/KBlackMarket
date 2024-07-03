@@ -1,6 +1,7 @@
 package dvie.kblackmarket
 
 import com.massivecraft.massivecore.MassivePlugin
+import com.massivecraft.massivecore.integration.vault.IntegrationVault
 import dvie.kblackmarket.cmd.CmdBlackMarket
 import dvie.kblackmarket.entity.MConf
 import dvie.kblackmarket.entity.MConfColl
@@ -26,10 +27,13 @@ class KBlackMarket : MassivePlugin() {
         builder.setExclusionStrategies(IgnoreCompanion())
         super.setGson(builder.create())
 
-        activate(
-            CmdBlackMarket::class.java,
-            MConfColl::class.java,
-        )
+        if (IntegrationVault.get().isIntegrationActive) {
+
+            activate(
+                CmdBlackMarket::class.java,
+                MConfColl::class.java,
+            )
+        }
     }
 
     override fun onDisable() {

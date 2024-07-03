@@ -4,6 +4,7 @@ import com.google.common.collect.Lists
 import com.massivecraft.massivecore.chestgui.ChestGui
 import com.massivecraft.massivecore.command.MassiveCommand
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer
+import com.massivecraft.massivecore.money.MoneyMixinVault
 import com.massivecraft.massivecore.util.Txt
 import dvie.kblackmarket.entity.MConf
 import dvie.kblackmarket.objects.BlackMarketItems
@@ -42,6 +43,7 @@ class CmdBlackMarket : MassiveCommand() {
         private val i = CmdBlackMarket()
         @JvmStatic
         fun get(): CmdBlackMarket { return i }
+
     }
 
 
@@ -91,6 +93,11 @@ class CmdBlackMarket : MassiveCommand() {
             val commands = item.processCommands(player)
             for (command in commands) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command)
+                val economy = MoneyMixinVault.get().economy
+                if (economy != null && economy.has(player, item.price.toDouble())) {
+                    economy.withdrawPlayer(player, item.price.toDouble())
+                    player.sendMessage(Txt.parse(MConf.i.boughtItem.replace("%item%", item.displayName).replace("%price%", item.price.toString())))
+                }
             }
             true
         }
